@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Warren Ogbonnaya Esonu — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #080a0f;
+    --surface: #0f1219;
+    --card: #141820;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5a0;
+    --accent2: #4d7cfe;
+    --accent3: #ff6b35;
+    --text: #eef0f5;
+    --muted: #6b7280;
+    --mono: 'DM Mono', monospace;
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(0,229,160,0.4);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+  }
+  .cursor-ring.hovering {
+    width: 56px; height: 56px;
+    border-color: var(--accent);
+    background: rgba(0,229,160,0.05);
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9997; opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 48px;
+    background: linear-gradient(to bottom, rgba(8,10,15,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+    animation: pulse-border 2s ease-in-out infinite;
+  }
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,160,0.2); }
+    50% { box-shadow: 0 0 0 6px rgba(0,229,160,0); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid lines background */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 { width: 500px; height: 500px; background: rgba(0,229,160,0.08); top: -100px; right: 0; }
+  .orb2 { width: 400px; height: 400px; background: rgba(77,124,254,0.07); bottom: 0; right: 200px; }
+  .orb3 { width: 300px; height: 300px; background: rgba(255,107,53,0.05); top: 200px; left: -100px; }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,160,0.25);
+    background: rgba(0,229,160,0.05);
+    padding: 7px 16px;
+    border-radius: 4px;
+    margin-bottom: 32px;
+    letter-spacing: 0.1em;
+    opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(72px, 8vw, 120px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero-name .line2 { color: var(--accent); }
+
+  .hero-role {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 48px;
+    font-weight: 400;
+    opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+  }
+  .hero-role strong { color: var(--text); font-weight: 600; }
+
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent);
+    color: #080a0f;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 14px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,229,160,0.25);
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    padding: 14px 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* Hero right: stat cards */
+  .hero-right {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 16px;
+    opacity: 0; animation: fadeLeft 0.8s 0.5s forwards;
+  }
+  @keyframes fadeLeft { from{opacity:0;transform:translateX(30px);} to{opacity:1;transform:none;} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:none;} }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 28px;
+    min-width: 220px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-line, var(--accent)), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .stat-card:hover { transform: translateY(-4px) translateX(-4px); border-color: rgba(255,255,255,0.15); }
+  .stat-card:hover::before { opacity: 1; }
+  .stat-num {
+    font-family: var(--display);
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .location-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 8px 16px; border-radius: 100px;
+    margin-top: 8px;
+  }
+  .location-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+  /* ── SECTION SCAFFOLDING ── */
+  section { padding: 100px 48px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(48px, 5vw, 72px);
+    line-height: 1;
+    margin-bottom: 60px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--surface); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .skill-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .skill-card-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .skill-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .skill-card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 20px;
+  }
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .skill-card.s1 { --glow: rgba(0,229,160,0.08); }
+  .skill-card.s2 { --glow: rgba(77,124,254,0.08); }
+  .skill-card.s3 { --glow: rgba(255,107,53,0.08); }
+  .skill-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 0% 0%, var(--glow, transparent) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .skill-card.s1 .skill-card-title { color: var(--accent); }
+  .skill-card.s2 .skill-card-title { color: var(--accent2); }
+  .skill-card.s3 .skill-card-title { color: var(--accent3); }
+  .skill-tag.green { background: rgba(0,229,160,0.08); border-color: rgba(0,229,160,0.2); color: var(--accent); }
+  .skill-tag.blue { background: rgba(77,124,254,0.08); border-color: rgba(77,124,254,0.2); color: var(--accent2); }
+  .skill-tag.orange { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.2); color: var(--accent3); }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg); }
+  .timeline {
+    position: relative;
+    max-width: 860px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border) 10%, var(--border) 90%, transparent);
+  }
+  .timeline-item {
+    padding: 0 0 56px 44px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .timeline-item.visible { opacity: 1; transform: none; }
+  .timeline-dot {
+    position: absolute; left: -5px; top: 6px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .timeline-item:nth-child(2) .timeline-dot { background: var(--accent2); }
+  .timeline-item:nth-child(3) .timeline-dot { background: var(--accent3); }
+  .timeline-item:nth-child(4) .timeline-dot { background: #a78bfa; }
+  .timeline-meta {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .timeline-company {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .timeline-item:nth-child(2) .timeline-company { color: var(--accent2); }
+  .timeline-item:nth-child(3) .timeline-company { color: var(--accent3); }
+  .timeline-item:nth-child(4) .timeline-company { color: #a78bfa; }
+  .timeline-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .timeline-role {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding: 4px 0 4px 18px;
+    position: relative;
+  }
+  .timeline-bullets li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  /* ── RESEARCH INTERESTS ── */
+  #research { background: var(--surface); }
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .research-card {
+    padding: 40px 36px;
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .research-card:hover { background: #181e28; }
+  .research-number {
+    font-family: var(--display);
+    font-size: 80px;
+    line-height: 1;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: 16px; right: 24px;
+    pointer-events: none;
+  }
+  .research-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+  .research-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .research-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--bg); }
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .edu-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+  .edu-card-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .badge-current { background: rgba(0,229,160,0.1); color: var(--accent); border: 1px solid rgba(0,229,160,0.2); }
+  .badge-completed { background: rgba(107,114,128,0.1); color: var(--muted); border: 1px solid var(--border); }
+  .edu-school { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .edu-degree { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+  .edu-honor {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #f59e0b;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--surface);
+    text-align: center;
+    padding: 120px 48px;
+  }
+  .contact-email {
+    font-family: var(--display);
+    font-size: clamp(32px, 4vw, 56px);
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    display: inline-block;
+    margin: 32px 0 48px;
+    transition: opacity 0.2s;
+    border-bottom: 2px solid rgba(0,229,160,0.3);
+    padding-bottom: 4px;
+  }
+  .contact-email:hover { opacity: 0.7; }
+  .social-row {
+    display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+  }
+  .social-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 100px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    letter-spacing: 0.06em;
+  }
+  .social-link:hover {
+    color: var(--text);
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(0,229,160,0.3); border-radius: 2px; }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    background: var(--card);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--muted);
+    padding: 0 40px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .marquee-item span { color: var(--accent); }
+  @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+    .hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; animation: fadeUp 0.8s 0.5s forwards; }
+    section { padding: 80px 24px; }
+    .skills-grid, .research-grid { grid-template-columns: 1fr !important; }
+    .edu-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">WOE.DEV</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#research">Research</a>
+    <a href="#education">Education</a>
+    <a href="#community">Community</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-badge">Open to Internships</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Computer Science · First Class · Accra, GH</div>
+    <h1 class="hero-name">
+      WARREN<br>
+      <span class="line2">ESONU</span>
+    </h1>
+    <p class="hero-role">
+      <strong>Software & Data Engineering Student</strong> at Academic City University.<br>
+      Interested in database internals, compiler theory, and applied ML.<br>
+      Building things that are reliable, fast, and well-reasoned.
+    </p>
+    <div class="hero-cta">
+      <a href="#experience" class="btn-primary">View Experience →</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stat-card" style="--accent-line: var(--accent);">
+      <div class="stat-num" style="color: var(--accent);">1ST</div>
+      <div class="stat-label">Class Honours Track</div>
+    </div>
+    <div class="stat-card" style="--accent-line: var(--accent2);">
+      <div class="stat-num" style="color: var(--accent2);">3+</div>
+      <div class="stat-label">Years of Experience</div>
+    </div>
+    <div class="stat-card" style="--accent-line: var(--accent3);">
+      <div class="stat-num" style="color: var(--accent3);">5+</div>
+      <div class="stat-label">Roles & Projects</div>
+    </div>
+    <div class="location-pill">
+      <div class="location-dot"></div>
+      Accra, Ghana · Available
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">SQL <span>·</span></span>
+    <span class="marquee-item">Python <span>·</span></span>
+    <span class="marquee-item">Data Engineering <span>·</span></span>
+    <span class="marquee-item">C / C++ <span>·</span></span>
+    <span class="marquee-item">Machine Learning <span>·</span></span>
+    <span class="marquee-item">React <span>·</span></span>
+    <span class="marquee-item">Database Internals <span>·</span></span>
+    <span class="marquee-item">Java <span>·</span></span>
+    <span class="marquee-item">Power BI Dashboards <span>·</span></span>
+    <span class="marquee-item">Git / GitHub <span>·</span></span>
+    <span class="marquee-item">Oracle FCUBS <span>·</span></span>
+    <span class="marquee-item">Formal Methods <span>·</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">SQL <span>·</span></span>
+    <span class="marquee-item">Python <span>·</span></span>
+    <span class="marquee-item">Data Engineering <span>·</span></span>
+    <span class="marquee-item">C / C++ <span>·</span></span>
+    <span class="marquee-item">Machine Learning <span>·</span></span>
+    <span class="marquee-item">React <span>·</span></span>
+    <span class="marquee-item">Database Internals <span>·</span></span>
+    <span class="marquee-item">Java <span>·</span></span>
+    <span class="marquee-item">Power BI Dashboards <span>·</span></span>
+    <span class="marquee-item">Git / GitHub <span>·</span></span>
+    <span class="marquee-item">Oracle FCUBS <span>·</span></span>
+    <span class="marquee-item">Formal Methods <span>·</span></span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// 02 — Capabilities</div>
+  <h2 class="section-title">WHAT I<br>BUILD WITH</h2>
+  <div class="skills-grid" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="skill-card s1">
+      <span class="skill-card-icon">🗄️</span>
+      <div class="skill-card-title">Data Management & IR</div>
+      <div class="skill-card-desc">Advanced SQL, schema design, query optimization, indexing strategies, view & materialized view design. Data cleaning, consistency checks, and dashboard creation for real operations.</div>
+      <div class="skill-tags">
+        <span class="skill-tag green">SQL Advanced</span>
+        <span class="skill-tag green">Schema Design</span>
+        <span class="skill-tag green">Indexing</span>
+        <span class="skill-tag">Oracle FCUBS</span>
+        <span class="skill-tag">Power BI</span>
+        <span class="skill-tag">Excel Advanced</span>
+      </div>
+    </div>
+    <div class="skill-card s2">
+      <span class="skill-card-icon">⚙️</span>
+      <div class="skill-card-title">Systems & Programming</div>
+      <div class="skill-card-desc">Proficient in C, C++, Java, Python, and React. Exposure to compiler construction, static analysis, type systems, and formal verification. Strong algorithmic problem-solving.</div>
+      <div class="skill-tags">
+        <span class="skill-tag blue">Python</span>
+        <span class="skill-tag blue">C / C++</span>
+        <span class="skill-tag blue">Java</span>
+        <span class="skill-tag blue">React</span>
+        <span class="skill-tag">Compiler Concepts</span>
+        <span class="skill-tag">Git / GitHub</span>
+      </div>
+    </div>
+    <div class="skill-card s3">
+      <span class="skill-card-icon">🤖</span>
+      <div class="skill-card-title">AI & Machine Learning</div>
+      <div class="skill-card-desc">Foundational ML concepts — classification, clustering, evaluation metrics. Jupyter Notebook workflows, actively developing TensorFlow and scikit-learn. Applied ML for data-driven decisions.</div>
+      <div class="skill-tags">
+        <span class="skill-tag orange">Scikit-learn</span>
+        <span class="skill-tag orange">TensorFlow</span>
+        <span class="skill-tag">Jupyter</span>
+        <span class="skill-tag">Classification</span>
+        <span class="skill-tag">Clustering</span>
+        <span class="skill-tag">Evaluation</span>
+      </div>
+    </div>
+    <div class="skill-card" style="--glow: rgba(167,139,250,0.08);">
+      <span class="skill-card-icon">🛠️</span>
+      <div class="skill-card-title" style="color: #a78bfa;">Tools & Soft Skills</div>
+      <div class="skill-card-desc">Versatile toolset and strong interpersonal competencies built across academic, professional, and volunteer settings. French speaker at advanced level.</div>
+      <div class="skill-tags">
+        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">Canva</span>
+        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">Notion</span>
+        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">French (Advanced)</span>
+        <span class="skill-tag">Critical Thinking</span>
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Persuasion</span>
+        <span class="skill-tag">Negotiation</span>
+        <span class="skill-tag">Adaptability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">// 03 — Track Record</div>
+  <h2 class="section-title">WHERE I'VE<br>WORKED</h2>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Osu Cloud9ine</span>
+        <span class="timeline-date">Jun 2025 — Present</span>
+      </div>
+      <div class="timeline-role">Assistant Admin Manager / Data Analyst</div>
+      <ul class="timeline-bullets">
+        <li>Designed and maintained data sheets for club operations with organized, accessible storage.</li>
+        <li>Built interactive dashboards to visualize company data and support performance tracking.</li>
+        <li>Cross-verified spreadsheet data with on-site records to ensure accuracy and consistency.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Access Bank PLC</span>
+        <span class="timeline-date">Jun 2025 — Jul 2025</span>
+      </div>
+      <div class="timeline-role">IT Intern</div>
+      <ul class="timeline-bullets">
+        <li>Developed SQL skills in indexing, views, schema design, and data manipulation in a live banking environment.</li>
+        <li>Supported Oracle Flexcube Universal Banking System (FCUBS) via SQL Navigator for data integrity.</li>
+        <li>Participated in user acceptance testing and DevOps practices for application development pipelines.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Academic City University</span>
+        <span class="timeline-date">Apr 2025 — Present</span>
+      </div>
+      <div class="timeline-role">Student Ambassador</div>
+      <ul class="timeline-bullets">
+        <li>Panel speaker at Parent's Night event, promoting university programs and values.</li>
+        <li>Represented the university in Togo to enhance cross-border visibility and outreach.</li>
+        <li>Conducted campus tours for prospective families, showcasing facilities and programs.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Esso Trading Company</span>
+        <span class="timeline-date">Jul 2021 — Sep 2023</span>
+      </div>
+      <div class="timeline-role">Secretary / Personal Assistant</div>
+      <ul class="timeline-bullets">
+        <li>Managed scheduling, communications, and document organization for executive operations.</li>
+        <li>Coordinated logistics and set up equipment for meetings and company events.</li>
+        <li>Sharpened Microsoft Office Suite skills through daily formalization of official activities.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Helen's Clothing</span>
+        <span class="timeline-date">Jul 2019 — Sep 2022</span>
+      </div>
+      <div class="timeline-role">Personal Assistant / Salesclerk</div>
+      <ul class="timeline-bullets">
+        <li>Managed walk-in customer interactions, driving a 25% revenue growth through strong customer engagement.</li>
+        <li>Applied persuasion and negotiation skills to increase repeat business and customer retention.</li>
+        <li>Steered sales transactions, contributing to a notable 50% revenue rise over the period.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-label">// 04 — Intellectual Focus</div>
+  <h2 class="section-title">RESEARCH<br>INTERESTS</h2>
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="research-number">01</div>
+      <span class="research-icon">🔍</span>
+      <div class="research-title">Data Management & Information Retrieval</div>
+      <div class="research-desc">Query optimization, indexing structures, database performance tuning, data quality assurance, and information extraction from complex datasets.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-number">02</div>
+      <span class="research-icon">λ</span>
+      <div class="research-title">Programming Languages & Formal Methods</div>
+      <div class="research-desc">Static analysis, program verification, compiler construction, type systems, and correctness guarantees for reliable software systems.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-number">03</div>
+      <span class="research-icon">🧠</span>
+      <div class="research-title">Artificial Intelligence & Machine Learning</div>
+      <div class="research-desc">ML system design, model evaluation methodologies, applied ML for data-driven decision making, and algorithmic optimization techniques.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">// 05 — Academic Background</div>
+  <h2 class="section-title">EDUCATION</h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <span class="edu-card-badge badge-current">Currently Enrolled</span>
+      <div class="edu-school">Academic City University</div>
+      <div class="edu-degree">B.Sc. Computer Science · Since Sep 2023 · Accra, Ghana</div>
+      <div class="edu-honor">⭐ First Class Track</div>
+    </div>
+    <div class="edu-card">
+      <span class="edu-card-badge badge-completed">Completed 2023</span>
+      <div class="edu-school">Ecole International MAARIF</div>
+      <div class="edu-degree">Mathematics, Informatics, Physics · Sep 2018 – Jun 2023 · Lomé, Togo</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY SERVICE -->
+<section id="community" style="background: var(--bg);">
+  <div class="section-label">// 06 — Giving Back</div>
+  <h2 class="section-title">COMMUNITY<br>SERVICE</h2>
+  <div class="timeline" style="max-width: 860px;">
+
+    <div class="timeline-item visible">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company" style="color: var(--accent2);">Afro-American Association of Ghana</span>
+        <span class="timeline-date">2024 — Present · Accra, Ghana</span>
+      </div>
+      <div class="timeline-role">Volunteer</div>
+      <ul class="timeline-bullets">
+        <li>Networked with AAAG members and gained insight into the African American community's role in Ghana.</li>
+        <li>Planned, organized, and managed AAAG events — coordinating logistics, schedules, and team responsibilities.</li>
+        <li>Collaborated with stakeholders to maintain high standards of organization and efficiency.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item visible">
+      <div class="timeline-dot" style="background: var(--accent3);"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company" style="color: var(--accent3);">SOS Village</span>
+        <span class="timeline-date">2018 · Lomé, Togo</span>
+      </div>
+      <div class="timeline-role">Volunteer</div>
+      <ul class="timeline-bullets">
+        <li>Organized a fundraising and clothing donation event to support children in the community.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">// 07 — Let's Connect</div>
+  <h2 class="section-title">GET IN<br>TOUCH</h2>
+  <p style="color: var(--muted); font-size: 15px; max-width: 420px; margin: 0 auto 8px; line-height: 1.7;">
+    Open to internship opportunities, research collaborations, and interesting engineering challenges.
+  </p>
+  <a href="mailto:esonwarr@gmail.com" class="contact-email">esonwarr@gmail.com</a>
+  <div class="social-row">
+    <a href="https://www.linkedin.com/in/warren-esonu/" class="social-link" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      linkedin.com/in/warren-esonu
+    </a>
+    <a href="https://github.com/kingwarson11" class="social-link" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      github.com/kingwarson11
+    </a>
+    <a href="tel:+233533578172" class="social-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      +233 (0)533 578 172
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Warren Ogbonnaya Esonu</span>
+  <span>Accra, Ghana · Available for Internships</span>
+  <span><a href="mailto:esonwarr@gmail.com">esonwarr@gmail.com</a></span>
+</footer>
+
+<script>
+  // Custom cursor
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  // Hover effect on interactive elements
+  document.querySelectorAll('a, button, .skill-card, .stat-card, .research-card, .edu-card').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+  });
+
+  // Scroll observer — makes timeline items visible when scrolled into view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 120);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
+</script>
