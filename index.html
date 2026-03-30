@@ -550,6 +550,30 @@
     background: rgba(255,255,255,0.04);
   }
 
+  /* ── INTERESTS ── */
+  #interests { background: var(--surface); }
+  .interests-grid {
+    display: flex; flex-wrap: wrap; gap: 14px;
+  }
+  .interest-chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 12px 22px;
+    border-radius: 100px;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .interest-chip:hover {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-2px);
+  }
+  .interest-chip .chip-icon { font-size: 16px; }
+
   /* ── FOOTER ── */
   footer {
     padding: 32px 48px;
@@ -560,6 +584,10 @@
     color: var(--muted);
     letter-spacing: 0.06em;
   }
+
+  /* ── WHATSAPP LINK ── */
+  .social-link.whatsapp { color: #25D366; border-color: rgba(37,211,102,0.25); }
+  .social-link.whatsapp:hover { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.5); color: #25D366; }
 
   /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 4px; }
@@ -617,6 +645,7 @@
     <a href="#research">Research</a>
     <a href="#education">Education</a>
     <a href="#community">Community</a>
+    <a href="#interests">Interests</a>
     <a href="#contact">Contact</a>
   </div>
   <div class="nav-badge">Open to Internships</div>
@@ -717,42 +746,45 @@
     <div class="skill-card s2">
       <span class="skill-card-icon">⚙️</span>
       <div class="skill-card-title">Systems & Programming</div>
-      <div class="skill-card-desc">Proficient in C, C++, Java, Python, and React. Exposure to compiler construction, static analysis, type systems, and formal verification. Strong algorithmic problem-solving.</div>
+      <div class="skill-card-desc">Proficient in C, C++, Java, and Python with strong debugging and code-verification skills. Exposure to compiler concepts and algorithmic problem-solving.</div>
       <div class="skill-tags">
         <span class="skill-tag blue">Python</span>
         <span class="skill-tag blue">C / C++</span>
         <span class="skill-tag blue">Java</span>
-        <span class="skill-tag blue">React</span>
         <span class="skill-tag">Compiler Concepts</span>
+        <span class="skill-tag">Debugging</span>
         <span class="skill-tag">Git / GitHub</span>
       </div>
     </div>
     <div class="skill-card s3">
       <span class="skill-card-icon">🤖</span>
       <div class="skill-card-title">AI & Machine Learning</div>
-      <div class="skill-card-desc">Foundational ML concepts — classification, clustering, evaluation metrics. Jupyter Notebook workflows, actively developing TensorFlow and scikit-learn. Applied ML for data-driven decisions.</div>
+      <div class="skill-card-desc">Foundational ML concepts and Data Science using Python and Jupyter Notebook workflows. Applied ML for data-driven decision making.</div>
       <div class="skill-tags">
-        <span class="skill-tag orange">Scikit-learn</span>
-        <span class="skill-tag orange">TensorFlow</span>
-        <span class="skill-tag">Jupyter</span>
-        <span class="skill-tag">Classification</span>
-        <span class="skill-tag">Clustering</span>
-        <span class="skill-tag">Evaluation</span>
+        <span class="skill-tag orange">Python</span>
+        <span class="skill-tag orange">Jupyter Notebook</span>
+        <span class="skill-tag">Foundational ML</span>
+        <span class="skill-tag">Data Science</span>
       </div>
     </div>
     <div class="skill-card" style="--glow: rgba(167,139,250,0.08);">
       <span class="skill-card-icon">🛠️</span>
       <div class="skill-card-title" style="color: #a78bfa;">Tools & Soft Skills</div>
-      <div class="skill-card-desc">Versatile toolset and strong interpersonal competencies built across academic, professional, and volunteer settings. French speaker at advanced level.</div>
+      <div class="skill-card-desc">Versatile toolset and strong interpersonal competencies built across academic, professional, and volunteer settings. Bilingual French speaker.</div>
       <div class="skill-tags">
+        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">French (Bilingual)</span>
+        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">Excel Advanced</span>
+        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">Power BI Dashboards</span>
         <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">Canva</span>
-        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">Notion</span>
-        <span class="skill-tag" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);color:#a78bfa;">French (Advanced)</span>
-        <span class="skill-tag">Critical Thinking</span>
+        <span class="skill-tag">Logical & Critical Thinking</span>
+        <span class="skill-tag">Problem-Solving</span>
+        <span class="skill-tag">Teamwork</span>
         <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Adaptability</span>
+        <span class="skill-tag">Time Management</span>
+        <span class="skill-tag">Organizational Skills</span>
         <span class="skill-tag">Persuasion</span>
         <span class="skill-tag">Negotiation</span>
-        <span class="skill-tag">Adaptability</span>
       </div>
     </div>
   </div>
@@ -772,9 +804,9 @@
       </div>
       <div class="timeline-role">Assistant Admin Manager / Data Analyst</div>
       <ul class="timeline-bullets">
-        <li>Designed and maintained data sheets for club operations with organized, accessible storage.</li>
-        <li>Built interactive dashboards to visualize company data and support performance tracking.</li>
-        <li>Cross-verified spreadsheet data with on-site records to ensure accuracy and consistency.</li>
+        <li>Designed and maintained data sheets for club operations, ensuring organized and accessible data storage.</li>
+        <li>Developed interactive dashboards to visualize company data and support performance tracking and decision-making.</li>
+        <li>Cross-verified data from spreadsheets with on-site records to ensure accuracy and consistency.</li>
       </ul>
     </div>
 
@@ -784,11 +816,11 @@
         <span class="timeline-company">Access Bank PLC</span>
         <span class="timeline-date">Jun 2025 — Jul 2025</span>
       </div>
-      <div class="timeline-role">IT Intern</div>
+      <div class="timeline-role">Intern</div>
       <ul class="timeline-bullets">
-        <li>Developed SQL skills in indexing, views, schema design, and data manipulation in a live banking environment.</li>
-        <li>Supported Oracle Flexcube Universal Banking System (FCUBS) via SQL Navigator for data integrity.</li>
-        <li>Participated in user acceptance testing and DevOps practices for application development pipelines.</li>
+        <li>Developed practical skills in database management, focusing on SQL indexing, views, schema design, and data manipulation techniques.</li>
+        <li>Supported Oracle Flexcube Universal Banking System (FCUBS) via SQL Navigator, ensuring smooth operation and data integrity.</li>
+        <li>Supported IT initiatives including application support, user acceptance testing, and DevOps practices for streamlined application development.</li>
       </ul>
     </div>
 
@@ -800,9 +832,9 @@
       </div>
       <div class="timeline-role">Student Ambassador</div>
       <ul class="timeline-bullets">
-        <li>Panel speaker at Parent's Night event, promoting university programs and values.</li>
-        <li>Represented the university in Togo to enhance cross-border visibility and outreach.</li>
-        <li>Conducted campus tours for prospective families, showcasing facilities and programs.</li>
+        <li>Participated as a panelist and speaker at a Parent's Night event to promote the university.</li>
+        <li>Spoke at an event in Togo to promote and campaign for the university, enhancing its visibility and outreach.</li>
+        <li>Conducted school tours for prospective families, highlighting key facilities and programs.</li>
       </ul>
     </div>
 
@@ -810,13 +842,13 @@
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Esso Trading Company</span>
-        <span class="timeline-date">Jul 2021 — Sep 2023</span>
+        <span class="timeline-date">Jul 2021 — Sep 2023 · Lomé, Togo</span>
       </div>
       <div class="timeline-role">Secretary / Personal Assistant</div>
       <ul class="timeline-bullets">
-        <li>Managed scheduling, communications, and document organization for executive operations.</li>
-        <li>Coordinated logistics and set up equipment for meetings and company events.</li>
-        <li>Sharpened Microsoft Office Suite skills through daily formalization of official activities.</li>
+        <li>Assisted with administrative tasks such as scheduling appointments, managing emails, and organizing documents.</li>
+        <li>Provided support during meetings and events by taking notes, coordinating logistics, and setting up equipment.</li>
+        <li>Improved skills in Microsoft Office Suite while using the tools for formalizing official activities.</li>
       </ul>
     </div>
 
@@ -824,13 +856,13 @@
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Helen's Clothing</span>
-        <span class="timeline-date">Jul 2019 — Sep 2022</span>
+        <span class="timeline-date">Jul 2019 — Sep 2022 · Accra, Ghana</span>
       </div>
       <div class="timeline-role">Personal Assistant / Salesclerk</div>
       <ul class="timeline-bullets">
-        <li>Managed walk-in customer interactions, driving a 25% revenue growth through strong customer engagement.</li>
-        <li>Applied persuasion and negotiation skills to increase repeat business and customer retention.</li>
-        <li>Steered sales transactions, contributing to a notable 50% revenue rise over the period.</li>
+        <li>Managed walk-in customer interactions, driving a substantial 25% revenue growth through strong customer engagement.</li>
+        <li>Used persuasion and negotiation skills to convince customers to buy more and return, increasing repeat business.</li>
+        <li>Steered walk-in sales transactions, contributing to a notable 50% revenue rise over the period.</li>
       </ul>
     </div>
 
@@ -871,13 +903,13 @@
     <div class="edu-card">
       <span class="edu-card-badge badge-current">Currently Enrolled</span>
       <div class="edu-school">Academic City University</div>
-      <div class="edu-degree">B.Sc. Computer Science · Since Sep 2023 · Accra, Ghana</div>
+      <div class="edu-degree">B.Sc. Bachelor in Computer Science · Since Sep 2023 · Accra, Ghana</div>
       <div class="edu-honor">⭐ First Class Track</div>
     </div>
     <div class="edu-card">
       <span class="edu-card-badge badge-completed">Completed 2023</span>
       <div class="edu-school">Ecole International MAARIF</div>
-      <div class="edu-degree">Mathematics, Informatics, Physics · Sep 2018 – Jun 2023 · Lomé, Togo</div>
+      <div class="edu-degree">French Baccalaureate (Mathematics, Informatics, Physics) · Sep 2018 – Jun 2023 · Lomé, Togo</div>
     </div>
   </div>
 </section>
@@ -896,9 +928,9 @@
       </div>
       <div class="timeline-role">Volunteer</div>
       <ul class="timeline-bullets">
-        <li>Networked with AAAG members and gained insight into the African American community's role in Ghana.</li>
+        <li>Networked with AAAG members and gained insight into the importance of the African American community's role in Ghana.</li>
         <li>Planned, organized, and managed AAAG events — coordinating logistics, schedules, and team responsibilities.</li>
-        <li>Collaborated with stakeholders to maintain high standards of organization and efficiency.</li>
+        <li>Collaborated with team members and stakeholders to handle event operations effectively.</li>
       </ul>
     </div>
 
@@ -917,14 +949,28 @@
   </div>
 </section>
 
+<!-- INTERESTS -->
+<section id="interests">
+  <div class="section-label">// 07 — Beyond the Screen</div>
+  <h2 class="section-title">OTHER<br>INTERESTS</h2>
+  <div class="interests-grid">
+    <span class="interest-chip"><span class="chip-icon">📚</span> Reading</span>
+    <span class="interest-chip"><span class="chip-icon">♟️</span> Chess</span>
+    <span class="interest-chip"><span class="chip-icon">🧩</span> Puzzle</span>
+    <span class="interest-chip"><span class="chip-icon">🎵</span> Music</span>
+    <span class="interest-chip"><span class="chip-icon">🌐</span> IoT</span>
+    <span class="interest-chip"><span class="chip-icon">🤖</span> AI Automation</span>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label">// 07 — Let's Connect</div>
+  <div class="section-label">// 08 — Let's Connect</div>
   <h2 class="section-title">GET IN<br>TOUCH</h2>
   <p style="color: var(--muted); font-size: 15px; max-width: 420px; margin: 0 auto 8px; line-height: 1.7;">
     Open to internship opportunities, research collaborations, and interesting engineering challenges.
   </p>
-  <a href="mailto:esonwarr@gmail.com" class="contact-email">esonwarr@gmail.com</a>
+  <a href="/cdn-cgi/l/email-protection#6104120e0f1600131321060c00080d4f020e0c" class="contact-email"><span class="__cf_email__" data-cfemail="4227312d2c3523303002252f232b2e6c212d2f">[email&#160;protected]</span></a>
   <div class="social-row">
     <a href="https://www.linkedin.com/in/warren-esonu/" class="social-link" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
@@ -934,9 +980,13 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
       github.com/kingwarson11
     </a>
-    <a href="tel:+233533578172" class="social-link">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+    <a href="https://wa.me/233533578172" class="social-link whatsapp" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       +233 (0)533 578 172
+    </a>
+    <a href="tel:+233552896147" class="social-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      +233 (0)552 896 147
     </a>
   </div>
 </section>
@@ -945,10 +995,10 @@
 <footer>
   <span>© 2025 Warren Ogbonnaya Esonu</span>
   <span>Accra, Ghana · Available for Internships</span>
-  <span><a href="mailto:esonwarr@gmail.com">esonwarr@gmail.com</a></span>
+  <span><a href="/cdn-cgi/l/email-protection#b7d2c4d8d9c0d6c5c5f7d0dad6dedb99d4d8da"><span class="__cf_email__" data-cfemail="86e3f5e9e8f1e7f4f4c6e1ebe7efeaa8e5e9eb">[email&#160;protected]</span></a></span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Custom cursor
   const dot = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
@@ -969,14 +1019,12 @@
   });
 
   // Scroll observer — makes timeline items visible when scrolled into view
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 120);
-        observer.unobserve(entry.target);
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
-</script>
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.timeline-item').forEach(el => obs.observe(el));
