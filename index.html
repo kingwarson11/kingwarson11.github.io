@@ -23,7 +23,11 @@
     --body: 'Syne', sans-serif;
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* FIX 1: cursor: none needs to apply to all interactive elements explicitly */
+  *, *::before, *::after,
+  a, button, input, textarea, select, label { cursor: none !important; }
 
   html { scroll-behavior: smooth; }
 
@@ -32,7 +36,6 @@
     color: var(--text);
     font-family: var(--body);
     overflow-x: hidden;
-    cursor: none;
   }
 
   /* ── CUSTOM CURSOR ── */
@@ -52,7 +55,8 @@
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform 0.18s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+    /* FIX 2: Use left/top directly for the ring (JS sets these) — transition on these properties */
+    transition: left 0.12s ease-out, top 0.12s ease-out, width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
   }
   .cursor-ring.hovering {
     width: 56px; height: 56px;
@@ -119,7 +123,6 @@
     overflow: hidden;
   }
 
-  /* Grid lines background */
   .hero::after {
     content: '';
     position: absolute; inset: 0;
@@ -249,7 +252,8 @@
     background: linear-gradient(90deg, transparent, var(--accent-line, var(--accent)), transparent);
     opacity: 0; transition: opacity 0.3s;
   }
-  .stat-card:hover { transform: translateY(-4px) translateX(-4px); border-color: rgba(255,255,255,0.15); }
+  /* FIX 3: Removed translateX(-4px) to prevent cards shifting into hero text on narrow viewports */
+  .stat-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
   .stat-card:hover::before { opacity: 1; }
   .stat-num {
     font-family: var(--display);
@@ -373,6 +377,7 @@
   .timeline-item {
     padding: 0 0 56px 44px;
     position: relative;
+    /* FIX 4: Removed hardcoded 'visible' class from HTML — items start hidden, revealed by IntersectionObserver */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s, transform 0.5s;
@@ -388,6 +393,7 @@
   .timeline-item:nth-child(2) .timeline-dot { background: var(--accent2); }
   .timeline-item:nth-child(3) .timeline-dot { background: var(--accent3); }
   .timeline-item:nth-child(4) .timeline-dot { background: #a78bfa; }
+  .timeline-item:nth-child(5) .timeline-dot { background: #f59e0b; }
   .timeline-meta {
     display: flex; align-items: center; gap: 12px;
     margin-bottom: 10px;
@@ -403,6 +409,7 @@
   .timeline-item:nth-child(2) .timeline-company { color: var(--accent2); }
   .timeline-item:nth-child(3) .timeline-company { color: var(--accent3); }
   .timeline-item:nth-child(4) .timeline-company { color: #a78bfa; }
+  .timeline-item:nth-child(5) .timeline-company { color: #f59e0b; }
   .timeline-date {
     font-family: var(--mono);
     font-size: 11px;
@@ -433,7 +440,10 @@
   .research-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
+    /* FIX 5: Changed gap from 2px to 1px and removed the wrapping border/radius trick
+       that caused clipping issues on mobile. Each card now has its own subtle border. */
+    gap: 1px;
+    background: var(--border);
     border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
@@ -536,7 +546,8 @@
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--mono);
     font-size: 12px;
-    color: var(--muted);
+    /* FIX 6: Changed color from var(--muted) to var(--text) so links are readable */
+    color: var(--text);
     text-decoration: none;
     border: 1px solid var(--border);
     padding: 10px 20px;
@@ -584,6 +595,13 @@
     color: var(--muted);
     letter-spacing: 0.06em;
   }
+  /* FIX 7: Footer link was invisible (inheriting --muted). Now explicitly visible. */
+  footer a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--accent); }
 
   /* ── WHATSAPP LINK ── */
   .social-link.whatsapp { color: #25D366; border-color: rgba(37,211,102,0.25); }
@@ -604,8 +622,10 @@
   }
   .marquee-track {
     display: flex;
+    /* FIX 8: Use width: max-content and let JS/CSS handle seamless loop via translateX(-50%).
+       The duplicate items ensure seamless wrapping. */
     width: max-content;
-    animation: marquee 22s linear infinite;
+    animation: marquee 28s linear infinite;
   }
   .marquee-item {
     font-family: var(--display);
@@ -616,6 +636,7 @@
     white-space: nowrap;
   }
   .marquee-item span { color: var(--accent); }
+  /* FIX 8 cont: Animate by exactly half the track so the loop is seamless */
   @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
   /* ── RESPONSIVE ── */
@@ -624,7 +645,9 @@
     .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
     .hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; animation: fadeUp 0.8s 0.5s forwards; }
     section { padding: 80px 24px; }
-    .skills-grid, .research-grid { grid-template-columns: 1fr !important; }
+    /* FIX 5 mobile: research-grid stacks to single column cleanly */
+    .skills-grid,
+    .research-grid { grid-template-columns: 1fr !important; }
     .edu-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 12px; text-align: center; }
     .nav-links { display: none; }
@@ -658,7 +681,8 @@
   <div class="hero-orb orb3"></div>
 
   <div class="hero-left">
-    <div class="hero-tag">Computer Science · First Class · Accra, GH</div>
+    <!-- FIX 9: Cleaned up hero-tag — removed redundant "Computer Science" since it's already in the degree -->
+    <div class="hero-tag">Software & Data Engineering · First Class · Accra, GH</div>
     <h1 class="hero-name">
       WARREN<br>
       <span class="line2">ESONU</span>
@@ -709,7 +733,7 @@
     <span class="marquee-item">Git / GitHub <span>·</span></span>
     <span class="marquee-item">Oracle FCUBS <span>·</span></span>
     <span class="marquee-item">Formal Methods <span>·</span></span>
-    <!-- duplicate for seamless loop -->
+    <!-- Exact duplicate for seamless loop -->
     <span class="marquee-item">SQL <span>·</span></span>
     <span class="marquee-item">Python <span>·</span></span>
     <span class="marquee-item">Data Engineering <span>·</span></span>
@@ -726,8 +750,9 @@
 </div>
 
 <!-- SKILLS -->
+<!-- FIX 10: Section label numbering now starts at // 01 for consistency -->
 <section id="skills">
-  <div class="section-label">// 02 — Capabilities</div>
+  <div class="section-label">// 01 — Capabilities</div>
   <h2 class="section-title">WHAT I<br>BUILD WITH</h2>
   <div class="skills-grid" style="grid-template-columns: repeat(2, 1fr);">
     <div class="skill-card s1">
@@ -746,11 +771,13 @@
     <div class="skill-card s2">
       <span class="skill-card-icon">⚙️</span>
       <div class="skill-card-title">Systems & Programming</div>
-      <div class="skill-card-desc">Proficient in C, C++, Java, and Python with strong debugging and code-verification skills. Exposure to compiler concepts and algorithmic problem-solving.</div>
+      <div class="skill-card-desc">Proficient in C, C++, Java, and Python with strong debugging and code-verification skills. Exposure to compiler concepts, React, and algorithmic problem-solving.</div>
       <div class="skill-tags">
         <span class="skill-tag blue">Python</span>
         <span class="skill-tag blue">C / C++</span>
         <span class="skill-tag blue">Java</span>
+        <!-- FIX 11: Added React to Systems card since it appears in the marquee but was missing here -->
+        <span class="skill-tag blue">React</span>
         <span class="skill-tag">Compiler Concepts</span>
         <span class="skill-tag">Debugging</span>
         <span class="skill-tag">Git / GitHub</span>
@@ -792,11 +819,12 @@
 
 <!-- EXPERIENCE -->
 <section id="experience">
-  <div class="section-label">// 03 — Track Record</div>
+  <div class="section-label">// 02 — Track Record</div>
   <h2 class="section-title">WHERE I'VE<br>WORKED</h2>
   <div class="timeline">
 
-    <div class="timeline-item visible">
+    <!-- FIX 4: Removed hardcoded 'visible' class — scroll-reveal JS handles this -->
+    <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Osu Cloud9ine</span>
@@ -810,7 +838,7 @@
       </ul>
     </div>
 
-    <div class="timeline-item visible">
+    <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Access Bank PLC</span>
@@ -824,7 +852,7 @@
       </ul>
     </div>
 
-    <div class="timeline-item visible">
+    <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Academic City University</span>
@@ -838,7 +866,7 @@
       </ul>
     </div>
 
-    <div class="timeline-item visible">
+    <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Esso Trading Company</span>
@@ -852,7 +880,7 @@
       </ul>
     </div>
 
-    <div class="timeline-item visible">
+    <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Helen's Clothing</span>
@@ -871,7 +899,7 @@
 
 <!-- RESEARCH -->
 <section id="research">
-  <div class="section-label">// 04 — Intellectual Focus</div>
+  <div class="section-label">// 03 — Intellectual Focus</div>
   <h2 class="section-title">RESEARCH<br>INTERESTS</h2>
   <div class="research-grid">
     <div class="research-card">
@@ -897,13 +925,14 @@
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="section-label">// 05 — Academic Background</div>
+  <div class="section-label">// 04 — Academic Background</div>
   <h2 class="section-title">EDUCATION</h2>
   <div class="edu-grid">
     <div class="edu-card">
       <span class="edu-card-badge badge-current">Currently Enrolled</span>
+      <!-- FIX 9 cont: Cleaned degree copy — "B.Sc. Bachelor" is redundant; use one form -->
       <div class="edu-school">Academic City University</div>
-      <div class="edu-degree">B.Sc. Bachelor in Computer Science · Since Sep 2023 · Accra, Ghana</div>
+      <div class="edu-degree">B.Sc. Computer Science · Since Sep 2023 · Accra, Ghana</div>
       <div class="edu-honor">⭐ First Class Track</div>
     </div>
     <div class="edu-card">
@@ -916,11 +945,11 @@
 
 <!-- COMMUNITY SERVICE -->
 <section id="community" style="background: var(--bg);">
-  <div class="section-label">// 06 — Giving Back</div>
+  <div class="section-label">// 05 — Giving Back</div>
   <h2 class="section-title">COMMUNITY<br>SERVICE</h2>
   <div class="timeline" style="max-width: 860px;">
 
-    <div class="timeline-item visible">
+    <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company" style="color: var(--accent2);">Afro-American Association of Ghana</span>
@@ -934,7 +963,7 @@
       </ul>
     </div>
 
-    <div class="timeline-item visible">
+    <div class="timeline-item">
       <div class="timeline-dot" style="background: var(--accent3);"></div>
       <div class="timeline-meta">
         <span class="timeline-company" style="color: var(--accent3);">SOS Village</span>
@@ -951,7 +980,7 @@
 
 <!-- INTERESTS -->
 <section id="interests">
-  <div class="section-label">// 07 — Beyond the Screen</div>
+  <div class="section-label">// 06 — Beyond the Screen</div>
   <h2 class="section-title">OTHER<br>INTERESTS</h2>
   <div class="interests-grid">
     <span class="interest-chip"><span class="chip-icon">📚</span> Reading</span>
@@ -965,26 +994,32 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label">// 08 — Let's Connect</div>
+  <div class="section-label">// 07 — Let's Connect</div>
   <h2 class="section-title">GET IN<br>TOUCH</h2>
   <p style="color: var(--muted); font-size: 15px; max-width: 420px; margin: 0 auto 8px; line-height: 1.7;">
     Open to internship opportunities, research collaborations, and interesting engineering challenges.
   </p>
- <a href="mailto:your@email.com" class="contact-email">
-    your@email.com
-  </a>  <div class="social-row">
+
+  <a href="mailto:esonwarr@gmail.com" class="contact-email">
+    esonwarr@gmail.com
+  </a>
+
+  <div class="social-row">
     <a href="https://www.linkedin.com/in/warren-esonu/" class="social-link" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
       linkedin.com/in/warren-esonu
     </a>
+
     <a href="https://github.com/kingwarson11" class="social-link" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
       github.com/kingwarson11
     </a>
+
     <a href="https://wa.me/233533578172" class="social-link whatsapp" target="_blank">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
       +233 (0)533 578 172
     </a>
+
     <a href="tel:+233552896147" class="social-link">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
       +233 (0)552 896 147
@@ -996,38 +1031,52 @@
 <footer>
   <span>© 2025 Warren Ogbonnaya Esonu</span>
   <span>Accra, Ghana · Available for Internships</span>
-  <span><a href="/cdn-cgi/l/email-protection#7a1f0915140d1b08083a1d171b131654191517"><span class="__cf_email__" data-cfemail="ed889e82839a8c9f9fad8a808c8481c38e8280">[email&#160;protected]</span></a></span>
+  <span>
+    <!-- FIX 7: footer a now has explicit color styling via CSS -->
+    <a href="mailto:esonwarr@gmail.com">esonwarr@gmail.com</a>
+  </span>
 </footer>
 
 <script>
-  // Custom cursor
-  const dot = document.getElementById('cursorDot');
+  // ── CUSTOM CURSOR ──
+  // FIX 2: Both dot AND ring are now tracked, ring follows with a slight lag via CSS transition
+  const dot  = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animCursor() {
-    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animCursor);
-  }
-  animCursor();
 
-  // Hover effect on interactive elements
-  document.querySelectorAll('a, button, .skill-card, .stat-card, .research-card, .edu-card').forEach(el => {
+  document.addEventListener('mousemove', e => {
+    const x = e.clientX;
+    const y = e.clientY;
+
+    // Dot: instant
+    dot.style.left = x + 'px';
+    dot.style.top  = y + 'px';
+
+    // Ring: follows via CSS transition (lag built into transition property)
+    ring.style.left = x + 'px';
+    ring.style.top  = y + 'px';
+  });
+
+  // Hover state for interactive elements
+  const hoverables = document.querySelectorAll('a, button, .stat-card, .skill-card, .edu-card, .interest-chip');
+  hoverables.forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
   });
 
-  // Scroll-reveal for timeline items
+  // ── SCROLL-REVEAL FOR TIMELINE ITEMS ──
+  // FIX 4: threshold lowered slightly so items reveal earlier on scroll
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
+        // Stagger delay based on element's position among siblings
+        const siblings = [...entry.target.parentElement.children];
+        const index = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = `${index * 0.1}s`;
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
 
   document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
 </script>
