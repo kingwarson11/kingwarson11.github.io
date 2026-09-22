@@ -25,7 +25,6 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* FIX 1: cursor: none needs to apply to all interactive elements explicitly */
   *, *::before, *::after,
   a, button, input, textarea, select, label { cursor: none !important; }
 
@@ -38,7 +37,6 @@
     overflow-x: hidden;
   }
 
-  /* ── CUSTOM CURSOR ── */
   .cursor-dot {
     width: 8px; height: 8px;
     background: var(--accent);
@@ -55,7 +53,6 @@
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9998;
     transform: translate(-50%, -50%);
-    /* FIX 2: Use left/top directly for the ring (JS sets these) — transition on these properties */
     transition: left 0.12s ease-out, top 0.12s ease-out, width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
   }
   .cursor-ring.hovering {
@@ -64,7 +61,6 @@
     background: rgba(0,229,160,0.05);
   }
 
-  /* ── NOISE OVERLAY ── */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -72,7 +68,6 @@
     pointer-events: none; z-index: 9997; opacity: 0.35;
   }
 
-  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
@@ -86,7 +81,7 @@
     color: var(--accent);
     letter-spacing: 0.12em;
   }
-  .nav-links { display: flex; gap: 36px; }
+  .nav-links { display: flex; gap: 28px; }
   .nav-links a {
     font-family: var(--mono);
     font-size: 12px;
@@ -112,7 +107,6 @@
     50% { box-shadow: 0 0 0 6px rgba(0,229,160,0); }
   }
 
-  /* ── HERO ── */
   .hero {
     min-height: 100vh;
     display: grid;
@@ -227,7 +221,6 @@
     background: rgba(255,255,255,0.04);
   }
 
-  /* Hero right: stat cards */
   .hero-right {
     position: relative; z-index: 2;
     display: flex; flex-direction: column; align-items: flex-end; gap: 16px;
@@ -252,7 +245,6 @@
     background: linear-gradient(90deg, transparent, var(--accent-line, var(--accent)), transparent);
     opacity: 0; transition: opacity 0.3s;
   }
-  /* FIX 3: Removed translateX(-4px) to prevent cards shifting into hero text on narrow viewports */
   .stat-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
   .stat-card:hover::before { opacity: 1; }
   .stat-num {
@@ -278,7 +270,6 @@
   }
   .location-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
 
-  /* ── SECTION SCAFFOLDING ── */
   section { padding: 100px 48px; }
   .section-label {
     font-family: var(--mono);
@@ -296,7 +287,6 @@
     letter-spacing: 0.02em;
   }
 
-  /* ── SKILLS ── */
   #skills { background: var(--surface); }
   .skills-grid {
     display: grid;
@@ -362,7 +352,6 @@
   .skill-tag.blue { background: rgba(77,124,254,0.08); border-color: rgba(77,124,254,0.2); color: var(--accent2); }
   .skill-tag.orange { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.2); color: var(--accent3); }
 
-  /* ── EXPERIENCE ── */
   #experience { background: var(--bg); }
   .timeline {
     position: relative;
@@ -377,7 +366,6 @@
   .timeline-item {
     padding: 0 0 56px 44px;
     position: relative;
-    /* FIX 4: Removed hardcoded 'visible' class from HTML — items start hidden, revealed by IntersectionObserver */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s, transform 0.5s;
@@ -394,6 +382,7 @@
   .timeline-item:nth-child(3) .timeline-dot { background: var(--accent3); }
   .timeline-item:nth-child(4) .timeline-dot { background: #a78bfa; }
   .timeline-item:nth-child(5) .timeline-dot { background: #f59e0b; }
+  .timeline-item:nth-child(6) .timeline-dot { background: #ec4899; }
   .timeline-meta {
     display: flex; align-items: center; gap: 12px;
     margin-bottom: 10px;
@@ -410,6 +399,7 @@
   .timeline-item:nth-child(3) .timeline-company { color: var(--accent3); }
   .timeline-item:nth-child(4) .timeline-company { color: #a78bfa; }
   .timeline-item:nth-child(5) .timeline-company { color: #f59e0b; }
+  .timeline-item:nth-child(6) .timeline-company { color: #ec4899; }
   .timeline-date {
     font-family: var(--mono);
     font-size: 11px;
@@ -435,13 +425,45 @@
     font-size: 16px;
   }
 
-  /* ── RESEARCH INTERESTS ── */
-  #research { background: var(--surface); }
+  #projects { background: var(--surface); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .project-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .project-icon { font-size: 26px; margin-bottom: 16px; display: block; }
+  .project-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .project-index {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #research { background: var(--bg); }
   .research-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* FIX 5: Changed gap from 2px to 1px and removed the wrapping border/radius trick
-       that caused clipping issues on mobile. Each card now has its own subtle border. */
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -478,8 +500,7 @@
     line-height: 1.7;
   }
 
-  /* ── EDUCATION ── */
-  #education { background: var(--bg); }
+  #education { background: var(--surface); }
   .edu-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -520,7 +541,6 @@
     border-radius: 100px;
   }
 
-  /* ── CONTACT ── */
   #contact {
     background: var(--surface);
     text-align: center;
@@ -546,7 +566,6 @@
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--mono);
     font-size: 12px;
-    /* FIX 6: Changed color from var(--muted) to var(--text) so links are readable */
     color: var(--text);
     text-decoration: none;
     border: 1px solid var(--border);
@@ -561,8 +580,7 @@
     background: rgba(255,255,255,0.04);
   }
 
-  /* ── INTERESTS ── */
-  #interests { background: var(--surface); }
+  #interests { background: var(--bg); }
   .interests-grid {
     display: flex; flex-wrap: wrap; gap: 14px;
   }
@@ -585,7 +603,6 @@
   }
   .interest-chip .chip-icon { font-size: 16px; }
 
-  /* ── FOOTER ── */
   footer {
     padding: 32px 48px;
     display: flex; justify-content: space-between; align-items: center;
@@ -595,7 +612,6 @@
     color: var(--muted);
     letter-spacing: 0.06em;
   }
-  /* FIX 7: Footer link was invisible (inheriting --muted). Now explicitly visible. */
   footer a {
     color: var(--text);
     text-decoration: none;
@@ -603,11 +619,9 @@
   }
   footer a:hover { color: var(--accent); }
 
-  /* ── WHATSAPP LINK ── */
   .social-link.whatsapp { color: #25D366; border-color: rgba(37,211,102,0.25); }
   .social-link.whatsapp:hover { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.5); color: #25D366; }
 
-  /* ── LANGUAGES ── */
   #languages { background: var(--surface); }
   .lang-grid {
     display: grid;
@@ -670,12 +684,10 @@
     .lang-grid { grid-template-columns: 1fr; }
   }
 
-  /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: rgba(0,229,160,0.3); border-radius: 2px; }
 
-  /* ── HERO ILLUSTRATION ── */
   .hero-illustration {
     position: absolute;
     right: 0; top: 0; bottom: 0;
@@ -686,7 +698,6 @@
   }
   .hero-illustration svg { width: 100%; height: 100%; }
 
-  /* ── PROFILE AVATAR ── */
   .avatar-wrap {
     position: relative;
     width: 180px; height: 180px;
@@ -725,7 +736,6 @@
     font-size: 16px;
   }
 
-  /* ── SECTION VISUAL BANNERS ── */
   .section-visual {
     width: 100%;
     border-radius: 16px;
@@ -736,7 +746,6 @@
   }
   .section-visual svg { width: 100%; height: 100%; }
 
-  /* ── SKILL CARD ICONS ── */
   .skill-visual {
     width: 100%;
     height: 160px;
@@ -748,7 +757,6 @@
   }
   .skill-visual svg { width: 100%; height: 100%; }
 
-  /* ── FLOATING TECH TAGS ── */
   .tech-float {
     position: absolute;
     font-family: var(--mono);
@@ -769,7 +777,6 @@
     50% { transform: translateY(-8px); }
   }
 
-  /* ── GHANA MAP BADGE ── */
   .ghana-badge {
     display: flex; align-items: center; gap: 12px;
     background: var(--card);
@@ -784,17 +791,14 @@
   .ghana-badge-text { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.5; }
   .ghana-badge-text strong { color: var(--text); display: block; font-size: 13px; }
 
-  /* ── EDU CARD ILLUSTRATION ── */
   .edu-illustration {
     height: 60px;
     margin-bottom: 20px;
     display: flex; align-items: center;
   }
 
-  /* ── INTEREST CHIP HOVER IMAGES ── */
   .interest-chip { position: relative; overflow: visible; }
 
-  /* ── ANIMATED CODE BLOCK IN HERO ── */
   .hero-code-block {
     font-family: var(--mono);
     font-size: 12px;
@@ -835,7 +839,6 @@
     margin-left: 2px;
   }
 
-  /* ── MARQUEE ── */
   .marquee-wrap {
     overflow: hidden;
     border-top: 1px solid var(--border);
@@ -845,8 +848,6 @@
   }
   .marquee-track {
     display: flex;
-    /* FIX 8: Use width: max-content and let JS/CSS handle seamless loop via translateX(-50%).
-       The duplicate items ensure seamless wrapping. */
     width: max-content;
     animation: marquee 28s linear infinite;
   }
@@ -859,21 +860,22 @@
     white-space: nowrap;
   }
   .marquee-item span { color: var(--accent); }
-  /* FIX 8 cont: Animate by exactly half the track so the loop is seamless */
   @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 20px 24px; }
     .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
     .hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; animation: fadeUp 0.8s 0.5s forwards; }
     section { padding: 80px 24px; }
-    /* FIX 5 mobile: research-grid stacks to single column cleanly */
     .skills-grid,
-    .research-grid { grid-template-columns: 1fr !important; }
+    .research-grid,
+    .projects-grid { grid-template-columns: 1fr !important; }
     .edu-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 12px; text-align: center; }
     .nav-links { display: none; }
+  }
+  @media (max-width: 1100px) and (min-width: 901px) {
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -888,6 +890,7 @@
   <div class="nav-links">
     <a href="#skills">Skills</a>
     <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
     <a href="#research">Research</a>
     <a href="#education">Education</a>
     <a href="#community">Community</a>
@@ -905,38 +908,25 @@
   <div class="hero-orb orb3"></div>
 
   <div class="hero-left">
-    <!-- PROFILE AVATAR -->
     <div class="avatar-wrap">
       <div class="avatar-ring"></div>
       <div class="avatar-inner">
-        <!-- Illustrated avatar — geometric portrait -->
         <svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background glow -->
           <circle cx="70" cy="70" r="68" fill="url(#avatarBg)"/>
-          <!-- Body / torso -->
           <rect x="30" y="95" width="80" height="55" rx="20" fill="#1a2235"/>
-          <!-- Collar / shirt accent -->
           <path d="M55 98 L70 112 L85 98" stroke="#00e5a0" stroke-width="2" fill="none"/>
-          <!-- Neck -->
           <rect x="60" y="82" width="20" height="18" rx="4" fill="#7B4A2D"/>
-          <!-- Head -->
           <ellipse cx="70" cy="68" rx="26" ry="28" fill="#7B4A2D"/>
-          <!-- Hair top -->
           <ellipse cx="70" cy="42" rx="26" ry="12" fill="#1a1a1a"/>
           <rect x="44" y="42" width="52" height="16" fill="#1a1a1a"/>
-          <!-- Eyes -->
           <ellipse cx="60" cy="66" rx="4" ry="4.5" fill="#2c1810"/>
           <ellipse cx="80" cy="66" rx="4" ry="4.5" fill="#2c1810"/>
           <circle cx="62" cy="65" r="1.5" fill="white"/>
           <circle cx="82" cy="65" r="1.5" fill="white"/>
-          <!-- Eyebrows -->
           <path d="M55 60 Q60 57 65 60" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
           <path d="M75 60 Q80 57 85 60" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <!-- Nose -->
           <path d="M68 70 Q70 76 72 70" stroke="#5a3020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- Smile -->
           <path d="M63 78 Q70 84 77 78" stroke="#5a3020" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <!-- Ear highlights -->
           <ellipse cx="44" cy="70" rx="4" ry="6" fill="#7B4A2D"/>
           <ellipse cx="96" cy="70" rx="4" ry="6" fill="#7B4A2D"/>
           <defs>
@@ -949,7 +939,6 @@
       </div>
       <div class="avatar-badge">💻</div>
     </div>
-    <!-- FIX 9: Cleaned up hero-tag — removed redundant "Computer Science" since it's already in the degree -->
     <div class="hero-tag">Software & Data Engineering · First Class · Accra, GH</div>
     <h1 class="hero-name">
       WARREN<br>
@@ -967,7 +956,6 @@
   </div>
 
   <div class="hero-right">
-    <!-- Animated code block -->
     <div class="hero-code-block">
       <div class="code-dots">
         <span style="background:#ff5f57;"></span>
@@ -994,8 +982,8 @@
       <div class="stat-label">Years of Experience</div>
     </div>
     <div class="stat-card" style="--accent-line: var(--accent3);">
-      <div class="stat-num" style="color: var(--accent3);">5+</div>
-      <div class="stat-label">Roles & Projects</div>
+      <div class="stat-num" style="color: var(--accent3);">6</div>
+      <div class="stat-label">Roles & Internships</div>
     </div>
     <div class="location-pill">
       <div class="location-dot"></div>
@@ -1016,10 +1004,10 @@
     <span class="marquee-item">Database Internals <span>·</span></span>
     <span class="marquee-item">Java <span>·</span></span>
     <span class="marquee-item">Power BI Dashboards <span>·</span></span>
+    <span class="marquee-item">Excel VBA <span>·</span></span>
     <span class="marquee-item">Git / GitHub <span>·</span></span>
     <span class="marquee-item">Oracle FCUBS <span>·</span></span>
     <span class="marquee-item">Formal Methods <span>·</span></span>
-    <!-- Exact duplicate for seamless loop -->
     <span class="marquee-item">SQL <span>·</span></span>
     <span class="marquee-item">Python <span>·</span></span>
     <span class="marquee-item">Data Engineering <span>·</span></span>
@@ -1029,6 +1017,7 @@
     <span class="marquee-item">Database Internals <span>·</span></span>
     <span class="marquee-item">Java <span>·</span></span>
     <span class="marquee-item">Power BI Dashboards <span>·</span></span>
+    <span class="marquee-item">Excel VBA <span>·</span></span>
     <span class="marquee-item">Git / GitHub <span>·</span></span>
     <span class="marquee-item">Oracle FCUBS <span>·</span></span>
     <span class="marquee-item">Formal Methods <span>·</span></span>
@@ -1036,7 +1025,6 @@
 </div>
 
 <!-- SKILLS -->
-<!-- FIX 10: Section label numbering now starts at // 01 for consistency -->
 <section id="skills">
   <div class="section-label">// 01 — Capabilities</div>
   <h2 class="section-title">WHAT I<br>BUILD WITH</h2>
@@ -1066,50 +1054,33 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-
-          <!-- Monitor body -->
           <rect x="30" y="8" width="210" height="130" rx="8" fill="#0d1117" stroke="#00e5a030" stroke-width="1.5"/>
-          <!-- Screen bezel -->
           <rect x="36" y="14" width="198" height="112" rx="4" fill="url(#screenGlow1)" stroke="#00e5a020" stroke-width="1"/>
-          <!-- Monitor stand -->
           <rect x="118" y="138" width="34" height="12" rx="2" fill="#1a2235"/>
           <rect x="100" y="148" width="70" height="5" rx="2.5" fill="#1a2235"/>
-
-          <!-- ── SCREEN CONTENT: Data Dashboard ── -->
-          <!-- Top bar -->
           <rect x="38" y="16" width="194" height="16" rx="3" fill="#141e2e"/>
           <circle cx="48" cy="24" r="3" fill="#ff5f5770"/>
           <circle cx="58" cy="24" r="3" fill="#febc2e70"/>
           <circle cx="68" cy="24" r="3" fill="#28c84070"/>
           <text x="115" y="27" font-family="monospace" font-size="7" fill="#00e5a0" text-anchor="middle" opacity="0.8">DATA MANAGEMENT DASHBOARD</text>
-
-          <!-- KPI row -->
           <rect x="40" y="35" width="56" height="26" rx="3" fill="#0f1e14" stroke="#00e5a020" stroke-width="1"/>
           <text x="68" y="46" font-family="monospace" font-size="8" fill="#00e5a0" text-anchor="middle" font-weight="bold">12.4K</text>
           <text x="68" y="56" font-family="monospace" font-size="5" fill="#6b7280" text-anchor="middle">RECORDS</text>
-
           <rect x="102" y="35" width="56" height="26" rx="3" fill="#0f1422" stroke="#4d7cfe20" stroke-width="1"/>
           <text x="130" y="46" font-family="monospace" font-size="8" fill="#4d7cfe" text-anchor="middle" font-weight="bold">98.7%</text>
           <text x="130" y="56" font-family="monospace" font-size="5" fill="#6b7280" text-anchor="middle">INTEGRITY</text>
-
           <rect x="164" y="35" width="56" height="26" rx="3" fill="#1a110a" stroke="#ff6b3520" stroke-width="1"/>
           <text x="192" y="46" font-family="monospace" font-size="8" fill="#ff6b35" text-anchor="middle" font-weight="bold">3.2ms</text>
           <text x="192" y="56" font-family="monospace" font-size="5" fill="#6b7280" text-anchor="middle">QUERY AVG</text>
-
-          <!-- Bar chart -->
           <rect x="40" y="66" width="100" height="54" rx="3" fill="#0a0f1a" stroke="#ffffff08" stroke-width="1"/>
           <text x="90" y="76" font-family="monospace" font-size="5" fill="#6b7280" text-anchor="middle">QUERY VOLUME / DAY</text>
-          <!-- Bars -->
           <rect x="48" y="97" width="10" height="17" rx="1" fill="url(#barG1)" opacity="0.8"/>
           <rect x="62" y="90" width="10" height="24" rx="1" fill="url(#barG1)" opacity="0.8"/>
           <rect x="76" y="85" width="10" height="29" rx="1" fill="url(#barG2)" opacity="0.8"/>
           <rect x="90" y="93" width="10" height="21" rx="1" fill="url(#barG1)" opacity="0.8"/>
           <rect x="104" y="80" width="10" height="34" rx="1" fill="url(#barG3)" opacity="0.8"/>
           <rect x="118" y="87" width="10" height="27" rx="1" fill="url(#barG1)" opacity="0.8"/>
-          <!-- X axis -->
           <line x1="42" y1="115" x2="134" y2="115" stroke="#ffffff15" stroke-width="0.8"/>
-
-          <!-- SQL query panel -->
           <rect x="148" y="66" width="82" height="54" rx="3" fill="#080c14" stroke="#4d7cfe20" stroke-width="1"/>
           <text x="155" y="76" font-family="monospace" font-size="5.5" fill="#4d7cfe" opacity="0.9">SELECT</text>
           <text x="178" y="76" font-family="monospace" font-size="5.5" fill="#eef0f5" opacity="0.7"> *</text>
@@ -1121,16 +1092,11 @@
           <text x="163" y="103" font-family="monospace" font-size="5.5" fill="#00e5a0"> TRUE</text>
           <text x="155" y="112" font-family="monospace" font-size="5.5" fill="#4d7cfe" opacity="0.9">ORDER BY</text>
           <text x="196" y="112" font-family="monospace" font-size="5.5" fill="#eef0f5" opacity="0.5"> id</text>
-          <!-- blinking cursor -->
           <rect x="207" y="106" width="4" height="7" fill="#4d7cfe">
             <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
           </rect>
-
-          <!-- Status bar -->
           <rect x="38" y="122" width="194" height="2" rx="1" fill="#00e5a0" opacity="0.15"/>
           <text x="42" y="120" font-family="monospace" font-size="5" fill="#00e5a0" opacity="0.6">● CONNECTED · Oracle FCUBS · 12 active queries</text>
-
-          <!-- Screen glow underneath monitor -->
           <ellipse cx="135" cy="145" rx="60" ry="6" fill="#00e5a0" opacity="0.06" filter="url(#glow1)"/>
         </svg>
       </div>
@@ -1163,12 +1129,8 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-
-          <!-- Laptop base / keyboard -->
           <rect x="25" y="118" width="230" height="22" rx="4" fill="#141e2e" stroke="#4d7cfe20" stroke-width="1"/>
-          <!-- Trackpad -->
           <rect x="110" y="123" width="60" height="12" rx="3" fill="#1a2235" stroke="#4d7cfe15" stroke-width="1"/>
-          <!-- Keyboard dots hint -->
           <rect x="35" y="124" width="4" height="4" rx="1" fill="#4d7cfe20"/>
           <rect x="43" y="124" width="4" height="4" rx="1" fill="#4d7cfe20"/>
           <rect x="51" y="124" width="4" height="4" rx="1" fill="#4d7cfe20"/>
@@ -1179,23 +1141,15 @@
           <rect x="201" y="124" width="4" height="4" rx="1" fill="#4d7cfe20"/>
           <rect x="185" y="131" width="4" height="4" rx="1" fill="#4d7cfe20"/>
           <rect x="193" y="131" width="4" height="4" rx="1" fill="#4d7cfe20"/>
-          <!-- Laptop hinge -->
           <rect x="25" y="115" width="230" height="5" rx="2" fill="#0d1117"/>
-
-          <!-- Laptop screen lid -->
           <rect x="30" y="8" width="220" height="110" rx="7" fill="url(#laptopLid)" stroke="#4d7cfe25" stroke-width="1.5"/>
-          <!-- Screen -->
           <rect x="38" y="16" width="204" height="95" rx="4" fill="url(#screenGlow2)"/>
-          <!-- Screen top bar (editor chrome) -->
           <rect x="38" y="16" width="204" height="16" rx="4" fill="#0d1220"/>
           <circle cx="50" cy="24" r="3.5" fill="#ff5f5775"/>
           <circle cx="62" cy="24" r="3.5" fill="#febc2e75"/>
           <circle cx="74" cy="24" r="3.5" fill="#28c84075"/>
-          <!-- Tab -->
           <rect x="90" y="17" width="70" height="14" rx="3" fill="#141e2e"/>
           <text x="125" y="27" font-family="monospace" font-size="6" fill="#4d7cfe" text-anchor="middle">analysis.py</text>
-
-          <!-- Line numbers column -->
           <rect x="38" y="32" width="18" height="79" fill="#0a0e18"/>
           <text x="47" y="44" font-family="monospace" font-size="6.5" fill="#6b7280" text-anchor="middle">1</text>
           <text x="47" y="53" font-family="monospace" font-size="6.5" fill="#6b7280" text-anchor="middle">2</text>
@@ -1205,51 +1159,37 @@
           <text x="47" y="89" font-family="monospace" font-size="6.5" fill="#6b7280" text-anchor="middle">6</text>
           <text x="47" y="98" font-family="monospace" font-size="6.5" fill="#6b7280" text-anchor="middle">7</text>
           <text x="47" y="107" font-family="monospace" font-size="6.5" fill="#6b7280" text-anchor="middle">8</text>
-
-          <!-- Python code -->
           <text x="62" y="44" font-family="monospace" font-size="7" fill="#4d7cfe">import</text>
           <text x="96" y="44" font-family="monospace" font-size="7" fill="#00e5a0"> pandas</text>
           <text x="131" y="44" font-family="monospace" font-size="7" fill="#4d7cfe"> as</text>
           <text x="145" y="44" font-family="monospace" font-size="7" fill="#eef0f5"> pd</text>
-
           <text x="62" y="53" font-family="monospace" font-size="7" fill="#4d7cfe">import</text>
           <text x="96" y="53" font-family="monospace" font-size="7" fill="#00e5a0"> numpy</text>
           <text x="128" y="53" font-family="monospace" font-size="7" fill="#4d7cfe"> as</text>
           <text x="142" y="53" font-family="monospace" font-size="7" fill="#eef0f5"> np</text>
-
           <text x="62" y="62" font-family="monospace" font-size="7" fill="#6b7280"># load dataset</text>
-
           <text x="62" y="71" font-family="monospace" font-size="7" fill="#eef0f5">df</text>
           <text x="72" y="71" font-family="monospace" font-size="7" fill="#eef0f5"> = pd.</text>
           <text x="96" y="71" font-family="monospace" font-size="7" fill="#febc2e">read_csv</text>
           <text x="133" y="71" font-family="monospace" font-size="7" fill="#eef0f5">(</text>
           <text x="137" y="71" font-family="monospace" font-size="7" fill="#00e5a0">"data.csv"</text>
           <text x="176" y="71" font-family="monospace" font-size="7" fill="#eef0f5">)</text>
-
           <text x="62" y="80" font-family="monospace" font-size="7" fill="#4d7cfe">def</text>
           <text x="76" y="80" font-family="monospace" font-size="7" fill="#febc2e"> clean</text>
           <text x="102" y="80" font-family="monospace" font-size="7" fill="#eef0f5">(df):</text>
-
           <text x="62" y="89" font-family="monospace" font-size="7" fill="#eef0f5">  df</text>
           <text x="75" y="89" font-family="monospace" font-size="7" fill="#eef0f5"> = df.</text>
           <text x="99" y="89" font-family="monospace" font-size="7" fill="#febc2e">dropna</text>
           <text x="129" y="89" font-family="monospace" font-size="7" fill="#eef0f5">()</text>
-
           <text x="62" y="98" font-family="monospace" font-size="7" fill="#eef0f5">  </text>
           <text x="68" y="98" font-family="monospace" font-size="7" fill="#4d7cfe">return</text>
           <text x="98" y="98" font-family="monospace" font-size="7" fill="#eef0f5"> df</text>
-
           <text x="62" y="107" font-family="monospace" font-size="7" fill="#eef0f5">result</text>
           <text x="88" y="107" font-family="monospace" font-size="7" fill="#eef0f5"> = clean(df)</text>
-          <!-- typing cursor -->
           <rect x="145" y="100" width="5" height="9" fill="#4d7cfe">
             <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/>
           </rect>
-
-          <!-- Python logo watermark -->
           <text x="222" y="105" font-family="monospace" font-size="22" fill="#4d7cfe" opacity="0.07" font-weight="bold">Py</text>
-
-          <!-- Screen glow effect below laptop -->
           <ellipse cx="140" cy="142" rx="70" ry="7" fill="#4d7cfe" opacity="0.07" filter="url(#glow2)"/>
         </svg>
       </div>
@@ -1260,7 +1200,6 @@
         <span class="skill-tag blue">Python</span>
         <span class="skill-tag blue">C / C++</span>
         <span class="skill-tag blue">Java</span>
-        <!-- FIX 11: Added React to Systems card since it appears in the marquee but was missing here -->
         <span class="skill-tag blue">React</span>
         <span class="skill-tag">Compiler Concepts</span>
         <span class="skill-tag">Debugging</span>
@@ -1293,66 +1232,41 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-
-          <!-- Background glow pulse -->
           <circle cx="160" cy="80" r="70" fill="url(#brainGlow)">
             <animate attributeName="r" values="65;75;65" dur="3s" repeatCount="indefinite"/>
           </circle>
-
-          <!-- ── BRAIN SHAPE (stylised) ── -->
-          <!-- Left hemisphere -->
-          <path d="M100 80 Q90 50 110 35 Q130 22 150 30 Q160 35 160 50" 
-                fill="none" stroke="#ff6b35" stroke-width="1.8" opacity="0.6"/>
-          <path d="M100 80 Q88 95 100 112 Q115 128 140 125 Q160 120 160 110"
-                fill="none" stroke="#ff6b35" stroke-width="1.8" opacity="0.6"/>
-          <!-- Right hemisphere -->
-          <path d="M160 50 Q160 35 175 30 Q195 22 210 35 Q228 50 218 80"
-                fill="none" stroke="#4d7cfe" stroke-width="1.8" opacity="0.6"/>
-          <path d="M160 110 Q160 120 178 125 Q205 128 218 112 Q230 95 218 80"
-                fill="none" stroke="#4d7cfe" stroke-width="1.8" opacity="0.6"/>
-          <!-- Centre divide -->
+          <path d="M100 80 Q90 50 110 35 Q130 22 150 30 Q160 35 160 50" fill="none" stroke="#ff6b35" stroke-width="1.8" opacity="0.6"/>
+          <path d="M100 80 Q88 95 100 112 Q115 128 140 125 Q160 120 160 110" fill="none" stroke="#ff6b35" stroke-width="1.8" opacity="0.6"/>
+          <path d="M160 50 Q160 35 175 30 Q195 22 210 35 Q228 50 218 80" fill="none" stroke="#4d7cfe" stroke-width="1.8" opacity="0.6"/>
+          <path d="M160 110 Q160 120 178 125 Q205 128 218 112 Q230 95 218 80" fill="none" stroke="#4d7cfe" stroke-width="1.8" opacity="0.6"/>
           <line x1="160" y1="28" x2="160" y2="130" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.15"/>
-          <!-- Brain folds -->
           <path d="M115 55 Q125 48 135 55 Q145 62 155 55" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
           <path d="M108 70 Q120 63 132 70 Q144 77 156 70" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.35" stroke-dasharray="2 2"/>
           <path d="M112 90 Q124 83 136 90 Q148 97 158 90" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.35" stroke-dasharray="2 2"/>
           <path d="M165 55 Q175 48 185 55 Q195 62 205 55" fill="none" stroke="#4d7cfe" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
           <path d="M162 72 Q174 65 186 72 Q198 79 210 72" fill="none" stroke="#4d7cfe" stroke-width="1" opacity="0.35" stroke-dasharray="2 2"/>
           <path d="M164 90 Q176 83 188 90 Q200 97 210 90" fill="none" stroke="#4d7cfe" stroke-width="1" opacity="0.35" stroke-dasharray="2 2"/>
-
-          <!-- ── NEURAL NODES ── -->
-          <!-- Input nodes (left) -->
           <circle cx="42" cy="45" r="6" fill="url(#nodeGlow1)" filter="url(#softGlow)"/>
           <circle cx="42" cy="65" r="6" fill="url(#nodeGlow1)" filter="url(#softGlow)"/>
           <circle cx="42" cy="85" r="6" fill="url(#nodeGlow1)" filter="url(#softGlow)"/>
           <circle cx="42" cy="105" r="6" fill="url(#nodeGlow1)" filter="url(#softGlow)"/>
-          <!-- Labels -->
           <text x="30" y="43" font-family="monospace" font-size="5" fill="#ff6b35" text-anchor="end" opacity="0.7">X1</text>
           <text x="30" y="63" font-family="monospace" font-size="5" fill="#ff6b35" text-anchor="end" opacity="0.7">X2</text>
           <text x="30" y="83" font-family="monospace" font-size="5" fill="#ff6b35" text-anchor="end" opacity="0.7">X3</text>
           <text x="30" y="103" font-family="monospace" font-size="5" fill="#ff6b35" text-anchor="end" opacity="0.7">X4</text>
-
-          <!-- Connections from input to brain -->
           <line x1="48" y1="45" x2="100" y2="62" stroke="#ff6b35" stroke-width="0.8" opacity="0.4"/>
           <line x1="48" y1="65" x2="100" y2="70" stroke="#ff6b35" stroke-width="0.8" opacity="0.5"/>
           <line x1="48" y1="85" x2="100" y2="82" stroke="#ff6b35" stroke-width="0.8" opacity="0.4"/>
           <line x1="48" y1="105" x2="100" y2="98" stroke="#ff6b35" stroke-width="0.6" opacity="0.35"/>
-
-          <!-- Output nodes (right) -->
           <circle cx="278" cy="55" r="7" fill="url(#nodeGlow2)" filter="url(#softGlow)"/>
           <circle cx="278" cy="80" r="9" fill="url(#nodeGlow2)" filter="url(#strongGlow)"/>
           <circle cx="278" cy="105" r="6" fill="url(#nodeGlow2)" filter="url(#softGlow)"/>
-          <!-- Labels -->
           <text x="290" y="53" font-family="monospace" font-size="5" fill="#4d7cfe" opacity="0.7">0.12</text>
           <text x="290" y="78" font-family="monospace" font-size="5" fill="#4d7cfe" opacity="0.9" font-weight="bold">0.87</text>
           <text x="290" y="103" font-family="monospace" font-size="5" fill="#4d7cfe" opacity="0.7">0.04</text>
-
-          <!-- Connections from brain to output -->
           <line x1="218" y1="65" x2="271" y2="55" stroke="#4d7cfe" stroke-width="0.8" opacity="0.45"/>
           <line x1="218" y1="80" x2="269" y2="80" stroke="#4d7cfe" stroke-width="1.2" opacity="0.7"/>
           <line x1="218" y1="95" x2="271" y2="105" stroke="#4d7cfe" stroke-width="0.7" opacity="0.4"/>
-
-          <!-- Animated signal pulses on main output -->
           <circle cx="218" cy="80" r="3" fill="#4d7cfe">
             <animateMotion dur="1.8s" repeatCount="indefinite" path="M0,0 L51,0"/>
             <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.8s" repeatCount="indefinite"/>
@@ -1361,8 +1275,6 @@
             <animateMotion dur="2.2s" repeatCount="indefinite" path="M0,0 L52,5"/>
             <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.2s" repeatCount="indefinite"/>
           </circle>
-
-          <!-- Bottom label bar -->
           <rect x="60" y="138" width="200" height="16" rx="4" fill="#0a0e18" stroke="#ff6b3520" stroke-width="1"/>
           <text x="82" y="149" font-family="monospace" font-size="6" fill="#ff6b35" opacity="0.8">MODEL</text>
           <text x="112" y="149" font-family="monospace" font-size="6" fill="#6b7280">·</text>
@@ -1391,70 +1303,52 @@
               <stop offset="100%" stop-color="#4d7cfe" stop-opacity="0.05"/>
             </linearGradient>
           </defs>
-
-          <!-- Power BI-style Dashboard Window -->
           <rect x="10" y="8" width="185" height="138" rx="7" fill="#0d1020" stroke="#a78bfa25" stroke-width="1.5"/>
           <rect x="10" y="8" width="185" height="18" rx="7" fill="#13102a"/>
           <circle cx="22" cy="17" r="3.5" fill="#ff5f5760"/>
           <circle cx="33" cy="17" r="3.5" fill="#febc2e60"/>
           <circle cx="44" cy="17" r="3.5" fill="#28c84060"/>
           <text x="105" y="20" font-family="monospace" font-size="6" fill="#a78bfa" text-anchor="middle" opacity="0.8">POWER BI DASHBOARD</text>
-
-          <!-- Donut chart -->
           <circle cx="55" cy="70" r="28" fill="none" stroke="#a78bfa" stroke-width="10" stroke-dasharray="56 132" stroke-dashoffset="0" opacity="0.7"/>
           <circle cx="55" cy="70" r="28" fill="none" stroke="#4d7cfe" stroke-width="10" stroke-dasharray="44 132" stroke-dashoffset="-56" opacity="0.6"/>
           <circle cx="55" cy="70" r="28" fill="none" stroke="#00e5a0" stroke-width="10" stroke-dasharray="32 132" stroke-dashoffset="-100" opacity="0.5"/>
           <circle cx="55" cy="70" r="15" fill="#0d1020"/>
           <text x="55" y="73" font-family="monospace" font-size="7" fill="#a78bfa" text-anchor="middle" font-weight="bold">70%</text>
-
-          <!-- Legend -->
           <rect x="90" y="45" width="8" height="8" rx="2" fill="#a78bfa" opacity="0.8"/>
           <text x="102" y="52" font-family="monospace" font-size="6" fill="#eef0f5" opacity="0.7">Excel</text>
           <rect x="90" y="60" width="8" height="8" rx="2" fill="#4d7cfe" opacity="0.8"/>
           <text x="102" y="67" font-family="monospace" font-size="6" fill="#eef0f5" opacity="0.7">Power BI</text>
           <rect x="90" y="75" width="8" height="8" rx="2" fill="#00e5a0" opacity="0.8"/>
           <text x="102" y="82" font-family="monospace" font-size="6" fill="#eef0f5" opacity="0.7">Canva</text>
-
-          <!-- Progress bars at bottom -->
           <text x="18" y="105" font-family="monospace" font-size="5.5" fill="#6b7280">French</text>
           <rect x="18" y="108" width="100" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="18" y="108" width="93" height="5" rx="2.5" fill="#a78bfa" opacity="0.7"/>
           <text x="122" y="113" font-family="monospace" font-size="5" fill="#a78bfa">93%</text>
-
           <text x="18" y="120" font-family="monospace" font-size="5.5" fill="#6b7280">Teamwork</text>
           <rect x="18" y="123" width="100" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="18" y="123" width="96" height="5" rx="2.5" fill="#4d7cfe" opacity="0.7"/>
           <text x="122" y="128" font-family="monospace" font-size="5" fill="#4d7cfe">96%</text>
-
           <text x="18" y="135" font-family="monospace" font-size="5.5" fill="#6b7280">Problem-Solving</text>
           <rect x="18" y="138" width="100" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="18" y="138" width="88" height="5" rx="2.5" fill="#00e5a0" opacity="0.7"/>
           <text x="122" y="143" font-family="monospace" font-size="5" fill="#00e5a0">88%</text>
-
-          <!-- Right panel: more soft skills -->
           <rect x="205" y="8" width="105" height="138" rx="7" fill="#0d1020" stroke="#a78bfa20" stroke-width="1"/>
           <text x="257" y="22" font-family="monospace" font-size="6" fill="#a78bfa" text-anchor="middle" opacity="0.8">SOFT SKILLS</text>
-
           <text x="213" y="38" font-family="monospace" font-size="5.5" fill="#6b7280">Communication</text>
           <rect x="213" y="41" width="89" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="213" y="41" width="84" height="5" rx="2.5" fill="#a78bfa" opacity="0.7"/>
-
           <text x="213" y="56" font-family="monospace" font-size="5.5" fill="#6b7280">Adaptability</text>
           <rect x="213" y="59" width="89" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="213" y="59" width="80" height="5" rx="2.5" fill="#4d7cfe" opacity="0.7"/>
-
           <text x="213" y="74" font-family="monospace" font-size="5.5" fill="#6b7280">Persuasion</text>
           <rect x="213" y="77" width="89" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="213" y="77" width="75" height="5" rx="2.5" fill="#00e5a0" opacity="0.7"/>
-
           <text x="213" y="92" font-family="monospace" font-size="5.5" fill="#6b7280">Negotiation</text>
           <rect x="213" y="95" width="89" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="213" y="95" width="72" height="5" rx="2.5" fill="#f59e0b" opacity="0.7"/>
-
           <text x="213" y="110" font-family="monospace" font-size="5.5" fill="#6b7280">Time Mgmt</text>
           <rect x="213" y="113" width="89" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="213" y="113" width="82" height="5" rx="2.5" fill="#ff6b35" opacity="0.7"/>
-
           <text x="213" y="128" font-family="monospace" font-size="5.5" fill="#6b7280">Organisation</text>
           <rect x="213" y="131" width="89" height="5" rx="2.5" fill="#1a1a2e"/>
           <rect x="213" y="131" width="86" height="5" rx="2.5" fill="#a78bfa" opacity="0.5"/>
@@ -1488,12 +1382,53 @@
   <h2 class="section-title">WHERE I'VE<br>WORKED</h2>
   <div class="timeline">
 
-    <!-- FIX 4: Removed hardcoded 'visible' class — scroll-reveal JS handles this -->
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">PwC Ghana</span>
+        <span class="timeline-date">Jun 2026 — Jul 2026 · Accra, Ghana</span>
+      </div>
+      <div class="timeline-role">Tax Tech Intern</div>
+      <ul class="timeline-bullets">
+        <li>Developed and enhanced tax automation solutions using Excel VBA and scripting, including CIT, Annual Tax Estimate, and Trial Balance workbooks.</li>
+        <li>Automated VAT, WHT, and other tax calculations, optimizing formulas, FX rates, and payment-quarter calculations.</li>
+        <li>Supported tax compliance, reporting tools, and workflow automation while collaborating with professionals to solve real-world tax technology challenges.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Nyansapo Institute</span>
+        <span class="timeline-date">May 2026 — Aug 2026 · Accra, Ghana</span>
+      </div>
+      <div class="timeline-role">Technical Curriculum Developer</div>
+      <ul class="timeline-bullets">
+        <li>Developed hands-on learning activities in Python, AI, and robotics for students.</li>
+        <li>Represented Nyansapo at Apex 2026 Tech Expo, programming and demonstrating AI-powered drones and rovers.</li>
+        <li>Inspired students and parents through live demonstrations of AI, robotics, and emerging technologies.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-company">Academic City University</span>
+        <span class="timeline-date">Apr 2025 — Present · Accra, Ghana</span>
+      </div>
+      <div class="timeline-role">Student Ambassador</div>
+      <ul class="timeline-bullets">
+        <li>Participated as a panelist and speaker at a Parent's Night event to promote the university.</li>
+        <li>Spoke at an event in Togo to promote and campaign for the university, enhancing its visibility and outreach.</li>
+        <li>Conducted school tours for prospective families, highlighting key facilities and programs.</li>
+      </ul>
+    </div>
+
     <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Osu Cloud9ine</span>
-        <span class="timeline-date">Jun 2025 — Present</span>
+        <span class="timeline-date">Jun 2025 — Jan 2026 · Accra, Ghana</span>
       </div>
       <div class="timeline-role">Assistant Admin Manager / Data Analyst</div>
       <ul class="timeline-bullets">
@@ -1507,27 +1442,13 @@
       <div class="timeline-dot"></div>
       <div class="timeline-meta">
         <span class="timeline-company">Access Bank PLC</span>
-        <span class="timeline-date">Jun 2025 — Jul 2025</span>
+        <span class="timeline-date">Jun 2025 — Jul 2025 · Accra, Ghana</span>
       </div>
       <div class="timeline-role">Intern</div>
       <ul class="timeline-bullets">
         <li>Developed practical skills in database management, focusing on SQL indexing, views, schema design, and data manipulation techniques.</li>
         <li>Supported Oracle Flexcube Universal Banking System (FCUBS) via SQL Navigator, ensuring smooth operation and data integrity.</li>
         <li>Supported IT initiatives including application support, user acceptance testing, and DevOps practices for streamlined application development.</li>
-      </ul>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-meta">
-        <span class="timeline-company">Academic City University</span>
-        <span class="timeline-date">Apr 2025 — Present</span>
-      </div>
-      <div class="timeline-role">Student Ambassador</div>
-      <ul class="timeline-bullets">
-        <li>Participated as a panelist and speaker at a Parent's Night event to promote the university.</li>
-        <li>Spoke at an event in Togo to promote and campaign for the university, enhancing its visibility and outreach.</li>
-        <li>Conducted school tours for prospective families, highlighting key facilities and programs.</li>
       </ul>
     </div>
 
@@ -1545,26 +1466,40 @@
       </ul>
     </div>
 
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-      <div class="timeline-meta">
-        <span class="timeline-company">Helen's Clothing</span>
-        <span class="timeline-date">Jul 2019 — Sep 2022 · Accra, Ghana</span>
-      </div>
-      <div class="timeline-role">Personal Assistant / Salesclerk</div>
-      <ul class="timeline-bullets">
-        <li>Managed walk-in customer interactions, driving a substantial 25% revenue growth through strong customer engagement.</li>
-        <li>Used persuasion and negotiation skills to convince customers to buy more and return, increasing repeat business.</li>
-        <li>Steered walk-in sales transactions, contributing to a notable 50% revenue rise over the period.</li>
-      </ul>
-    </div>
+  </div>
+</section>
 
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">// 03 — Selected Work</div>
+  <h2 class="section-title">PROJECTS</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-index">01</span>
+      <span class="project-icon">📐</span>
+      <div class="project-title">Linear Transformation</div>
+    </div>
+    <div class="project-card">
+      <span class="project-index">02</span>
+      <span class="project-icon">📊</span>
+      <div class="project-title">Student Performance Predictor</div>
+    </div>
+    <div class="project-card">
+      <span class="project-index">03</span>
+      <span class="project-icon">📚</span>
+      <div class="project-title">Digital Library System</div>
+    </div>
+    <div class="project-card">
+      <span class="project-index">04</span>
+      <span class="project-icon">🎮</span>
+      <div class="project-title">CodeQuest</div>
+    </div>
   </div>
 </section>
 
 <!-- RESEARCH -->
 <section id="research">
-  <div class="section-label">// 03 — Intellectual Focus</div>
+  <div class="section-label">// 04 — Intellectual Focus</div>
   <h2 class="section-title">RESEARCH<br>INTERESTS</h2>
   <div class="research-grid">
     <div class="research-card">
@@ -1590,12 +1525,11 @@
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="section-label">// 04 — Academic Background</div>
+  <div class="section-label">// 05 — Academic Background</div>
   <h2 class="section-title">EDUCATION</h2>
   <div class="edu-grid">
     <div class="edu-card">
       <span class="edu-card-badge badge-current">Currently Enrolled</span>
-      <!-- FIX 9 cont: Cleaned degree copy — "B.Sc. Bachelor" is redundant; use one form -->
       <div class="edu-school">Academic City University</div>
       <div class="edu-degree">B.Sc. Computer Science · Since Sep 2023 · Accra, Ghana</div>
       <div class="edu-honor">⭐ First Class Track</div>
@@ -1609,8 +1543,8 @@
 </section>
 
 <!-- COMMUNITY SERVICE -->
-<section id="community" style="background: var(--bg);">
-  <div class="section-label">// 05 — Giving Back</div>
+<section id="community" style="background: var(--surface);">
+  <div class="section-label">// 06 — Giving Back</div>
   <h2 class="section-title">COMMUNITY<br>SERVICE</h2>
   <div class="timeline" style="max-width: 860px;">
 
@@ -1644,13 +1578,12 @@
 </section>
 
 <!-- LANGUAGES -->
-<section id="languages" style="background: var(--surface);">
-  <div class="section-label">// 06 — Linguistic Range</div>
+<section id="languages" style="background: var(--bg);">
+  <div class="section-label">// 07 — Linguistic Range</div>
   <h2 class="section-title">LANGUAGES<br>I SPEAK</h2>
   <div class="lang-grid">
 
     <div class="lang-card">
-      <!-- 🇬🇧 UK flag -->
       <div class="lang-flag">
         <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="52" height="35" style="border-radius:5px;display:block;">
           <rect width="60" height="40" fill="#012169"/>
@@ -1669,7 +1602,6 @@
     </div>
 
     <div class="lang-card">
-      <!-- 🇫🇷 France flag -->
       <div class="lang-flag">
         <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="52" height="35" style="border-radius:5px;display:block;">
           <rect width="60" height="40" fill="#ED2939"/>
@@ -1686,7 +1618,6 @@
     </div>
 
     <div class="lang-card">
-      <!-- 🇳🇬 Nigeria flag -->
       <div class="lang-flag">
         <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="52" height="35" style="border-radius:5px;display:block;">
           <rect width="60" height="40" fill="#008751"/>
@@ -1702,7 +1633,6 @@
     </div>
 
     <div class="lang-card">
-      <!-- 🇹🇬 Togo flag -->
       <div class="lang-flag">
         <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="52" height="35" style="border-radius:5px;display:block;">
           <rect width="60" height="40" fill="#006a4e"/>
@@ -1721,7 +1651,6 @@
     </div>
 
     <div class="lang-card">
-      <!-- 🇪🇸 Spain flag -->
       <div class="lang-flag">
         <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="52" height="35" style="border-radius:5px;display:block;">
           <rect width="60" height="40" fill="#c60b1e"/>
@@ -1741,7 +1670,7 @@
 
 <!-- INTERESTS -->
 <section id="interests">
-  <div class="section-label">// 07 — Beyond the Screen</div>
+  <div class="section-label">// 08 — Beyond the Screen</div>
   <h2 class="section-title">OTHER<br>INTERESTS</h2>
   <div class="interests-grid">
     <span class="interest-chip"><span class="chip-icon">📚</span> Reading</span>
@@ -1755,7 +1684,7 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label">// 08 — Let's Connect</div>
+  <div class="section-label">// 09 — Let's Connect</div>
   <h2 class="section-title">GET IN<br>TOUCH</h2>
   <p style="color: var(--muted); font-size: 15px; max-width: 420px; margin: 0 auto 8px; line-height: 1.7;">
     Open to internship opportunities, research collaborations, and interesting engineering challenges.
@@ -1799,10 +1728,9 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>© 2025 Warren Ogbonnaya Esonu</span>
+  <span>© 2026 Warren Ogbonnaya Esonu</span>
   <span>Accra, Ghana · Available for Internships</span>
   <span>
-    <!-- FIX 7: footer a now has explicit color styling via CSS -->
     <a id="footer-email-link" href="#">
       <script>
         (function(){
@@ -1817,32 +1745,24 @@
 </footer>
 
 <script>
-  // ── CUSTOM CURSOR ──
-  // FIX 2: Both dot AND ring are now tracked, ring follows with a slight lag via CSS transition
   const dot  = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
 
   document.addEventListener('mousemove', e => {
     const x = e.clientX;
     const y = e.clientY;
-
-    // Dot: instant
     dot.style.left = x + 'px';
     dot.style.top  = y + 'px';
-
-    // Ring: follows via CSS transition (lag built into transition property)
     ring.style.left = x + 'px';
     ring.style.top  = y + 'px';
   });
 
-  // Hover state for interactive elements
-  const hoverables = document.querySelectorAll('a, button, .stat-card, .skill-card, .edu-card, .interest-chip');
+  const hoverables = document.querySelectorAll('a, button, .stat-card, .skill-card, .edu-card, .interest-chip, .project-card');
   hoverables.forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
   });
 
-  // ── SCROLL-REVEAL FOR TIMELINE ITEMS ──
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
