@@ -438,11 +438,14 @@
     padding: 28px 24px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.25s, border-color 0.25s;
+    transition: transform 0.25s, border-color 0.25s, background 0.25s;
+    display: block;
+    text-decoration: none;
   }
   .project-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(255,255,255,0.15);
+    border-color: rgba(0,229,160,0.35);
+    background: #181e28;
   }
   .project-icon { font-size: 26px; margin-bottom: 16px; display: block; }
   .project-title {
@@ -458,6 +461,23 @@
     letter-spacing: 0.1em;
     display: block;
     margin-bottom: 10px;
+  }
+  .project-link-hint {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .project-card:hover .project-link-hint {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   #research { background: var(--bg); }
@@ -1474,26 +1494,30 @@
   <div class="section-label">// 03 — Selected Work</div>
   <h2 class="section-title">PROJECTS</h2>
   <div class="projects-grid">
-    <div class="project-card">
+    <a class="project-card" href="https://linear-transformations.onrender.com/?tab=translation&shape=triangle&tcx=0&tcy=0&dx=0&dy=0" target="_blank" rel="noopener">
       <span class="project-index">01</span>
       <span class="project-icon">📐</span>
       <div class="project-title">Linear Transformation</div>
-    </div>
-    <div class="project-card">
+      <div class="project-link-hint">↗ View live project</div>
+    </a>
+    <a class="project-card" href="https://student-performance-predictor-1-m1u2.onrender.com/" target="_blank" rel="noopener">
       <span class="project-index">02</span>
       <span class="project-icon">📊</span>
       <div class="project-title">Student Performance Predictor</div>
-    </div>
-    <div class="project-card">
+      <div class="project-link-hint">↗ View live project</div>
+    </a>
+    <a class="project-card" href="https://kingwvrson.github.io/Digital_Library_Catalogue/frontend/index.html" target="_blank" rel="noopener">
       <span class="project-index">03</span>
       <span class="project-icon">📚</span>
       <div class="project-title">Digital Library System</div>
-    </div>
-    <div class="project-card">
+      <div class="project-link-hint">↗ View live project</div>
+    </a>
+    <a class="project-card" href="https://codequest-rouge.vercel.app/" target="_blank" rel="noopener">
       <span class="project-index">04</span>
       <span class="project-icon">🎮</span>
       <div class="project-title">CodeQuest</div>
-    </div>
+      <div class="project-link-hint">↗ View live project</div>
+    </a>
   </div>
 </section>
 
